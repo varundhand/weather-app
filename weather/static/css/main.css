@@ -1,0 +1,59 @@
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #cfb9ffd9;
+  background-image: url('../images/yeeet.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.card{
+  background: #cfb9ffd9 ;
+  padding: 2em;
+  border-radius: 40px;
+  width: 100%;
+  max-width: 312px;
+  margin: 1em;
+}
+
+.search{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button{
+  margin: .5em;
+  border-radius:50% ;
+  border: none;
+  height: 2.5em;
+  width: 2.5em;
+}
+
+input.search-bar {
+    border: none;
+    outline: none;
+    padding: 0.6em;
+    border-radius: 18px;
+    font-size: 110%;
+    font-family: inherit;
+}
+
+button:hover {
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.weather{
+  /* display: flex; */
+  /* flex-direction: column; */
+  text-align: center;
+}
+/* .icon-img{
+  display: flex;
+  /* flex-direction: column; */
