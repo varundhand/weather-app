@@ -31,27 +31,32 @@ import json
 def index(request):
   if request.method == 'POST':
     city = request.POST['city'].replace(' ','+')
-    # response = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid=91b7d97f511d789a9ca98ab956593984')
-    # resp = response.raise_for_status()
-    # print(f'the status code raised is {resp}')
-    source = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q='+ city + '&units=metric&appid=91b7d97f511d789a9ca98ab956593984').read()
-    list_of_data = json.loads(source)
-    print(list_of_data)
     try:
+      response = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid=91b7d97f511d789a9ca98ab956593984')
+    # response = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid=91b7d97f511d789a9ca98ab956593984')
+      response.raise_for_status()
+    # print(f'the status code raised is {resp}')
+    # source = urllib.request.urlopen('https://api.openweathermap.org/data/2.5/weather?q='+ city + '&units=metric&appid=91b7d97f511d789a9ca98ab956593984').read()
+      list_of_data = response.json()
+      print(list_of_data)
     # if 'cod' in list_of_data and 'cod' == 404:
     #   data = {'error':'City not found'}
     #   print(data)
     #   return render(request,'home/error.html',data)
       data = {
-        'city':str(list_of_data['name']),
-        'weather':str(list_of_data['weather'][0]['main']),
-        'icon':str(list_of_data['weather'][0]['icon']),
-        'cel_temp':str(list_of_data['main']['temp']),
-        'humidity':str(list_of_data['main']['humidity']), 
-        'wind':str(list_of_data['wind']['speed']),
-        }
-    except:
-      data = {'error':'City not found'}
+      'city': list_of_data['name'],
+      'weather': list_of_data['weather'][0]['main'],
+      'icon': list_of_data['weather'][0]['icon'],
+      'cel_temp': list_of_data['main']['temp'],
+      'humidity': list_of_data['main']['humidity'],
+      'wind': list_of_data['wind']['speed'],
+      }
+    
+    except requests.exceptions.RequestException as e:
+      data = {'error':'An error occurred while fetching weather data. Please try again later.'}
+      return render(request,'home/error.html',data)
+    except KeyError: 
+      data: {'error': 'City data not found. Please check the city name and try again.'}
       return render(request,'home/error.html',data)
   else:
     data = {}
